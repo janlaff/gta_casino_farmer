@@ -36,11 +36,11 @@ void set_key_state(int key, bool on) {
   if (on) {
     Serial.print("Enabling pin ");
     Serial.println(key);
-    analogWrite(key, 255);
+    digitalWrite(key, HIGH);
   } else {
     Serial.print("Disabling pin ");
     Serial.println(key);
-    analogWrite(key, 0);
+    digitalWrite(key, LOW);
   }
 }
 
