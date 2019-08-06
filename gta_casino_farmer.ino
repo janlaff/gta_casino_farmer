@@ -3,6 +3,7 @@ const int A_KEY = 21;
 const int UP_KEY = 20;
 const int DOWN_KEY = 19;
 const int RIGHT_KEY = 18;
+const int LEFT_KEY = 17;
 
 // Time constants
 const int KEY_CLICK_DURATION = 200; // 200ms
@@ -36,11 +37,11 @@ void set_key_state(int key, bool on) {
   if (on) {
     Serial.print("Enabling pin ");
     Serial.println(key);
-    digitalWrite(key, HIGH);
+    analogWrite(key, 1000);
   } else {
     Serial.print("Disabling pin ");
     Serial.println(key);
-    digitalWrite(key, LOW);
+    analogWrite(key, 0);
   }
 }
 
@@ -62,31 +63,29 @@ void setup() {
   pinMode(UP_KEY, OUTPUT);
   pinMode(DOWN_KEY, OUTPUT);
   pinMode(RIGHT_KEY, OUTPUT);
+  pinMode(LEFT_KEY, OUTPUT);
 
   set_key_state(A_KEY, false);
   set_key_state(UP_KEY, false);
   set_key_state(DOWN_KEY, false);
   set_key_state(RIGHT_KEY, false);
+  set_key_state(LEFT_KEY, false);
 }
 
 void loop() {
-  // Go to start game with right key
-  click_key(RIGHT_KEY);
-  
-  // Start game
+  click_key(DOWN_KEY);
   click_key(A_KEY);
   
-  // Goto 6. horse
-  for (int i = 0; i < 5; ++i) {
-    click_key(DOWN_KEY);
-  }
-  
-  // Select it
+  click_key(RIGHT_KEY);
   click_key(A_KEY);
 
-  // Goto money increase arrow
+  click_key(LEFT_KEY);
+  click_key(A_KEY);
+
   click_key(RIGHT_KEY);
   click_key(UP_KEY);
+  click_key(UP_KEY);
+  click_key(RIGHT_KEY);
 
   {
     // Hold the a key during this scope
@@ -99,8 +98,4 @@ void loop() {
     // Wait for result
     delay(RACE_DURATION);
   }
-
-  // Get price if present
-  click_key(A_KEY);
-  delay(RESTART_DELAY);
 }
